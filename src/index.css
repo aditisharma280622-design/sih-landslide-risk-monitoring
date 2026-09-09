@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Helvetica Neue ME", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-navy: #1d3045;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  font-family: var(--font-display);
+  background: #0b1420;
+  color: #1d3045;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
+}
+
+/*
+ * Staggered text reveal primitive used by every section. A section's root
+ * gets `data-active="true"` written directly by the scroll rAF loop (see
+ * App.tsx) once its computed opacity passes 0.3 — never via React state,
+ * since it changes on every scroll frame. Each `.reveal` child sets its
+ * own `--reveal-delay` inline for the stagger.
+ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+}
+
+[data-active='true'] > .reveal,
+[data-active='true'] .reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: opacity 0.3s ease-out;
+    transform: none;
+  }
+}
